@@ -1,6 +1,6 @@
 package bancoClase11;
 
-public class CajaDeAhorro extends Cuenta{
+public class CajaDeAhorro extends Cuenta {
 
     // Constructor
 
@@ -21,4 +21,7 @@ public class CajaDeAhorro extends Cuenta{
     public void cobrarInteres (double tasa){
         setSaldo(getSaldo()*(1+tasa));
     }
+
+
+
 }
