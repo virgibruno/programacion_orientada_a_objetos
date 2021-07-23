@@ -6,8 +6,9 @@ public class Estacion {
 
 
     // Constructor
-    public Estacion(String nombre) {
+    public Estacion(String nombre, int posicion) {
         this.nombre = nombre;
+        Main.estaciones.add(posicion, this);
     }
 
     // Getters and setters

@@ -18,12 +18,15 @@ public class Reserva {
         this.estacionDestino = estacionDestino;
         this.cantPersonas = cantPersonas;
         this.precioBoleto = 50.0;
+        Main.reservas.add(this);
     }
 
     // Metodos
 
     public double calcularCosto() {
-        if ((estacionPartida.equals("Buenos Aires") && estacionDestino.equals("Bragado") ) || ( estacionPartida.equals("Bragado") && estacionDestino.equals("Buenos Aires") )) {
+        int cantEstaciones = Main.estaciones.size();
+        int estacionesRecorridas = Main.buscarIndiceEstacion(estacionDestino.toString()) - Main.buscarIndiceEstacion(estacionPartida.toString()+1);
+        if (cantEstaciones == estacionesRecorridas) {
             return cantPersonas * precioBoleto * 0.8;
         } else return cantPersonas * precioBoleto;
     }

@@ -1,29 +1,68 @@
 package sistemaReservasTren;
 
+import java.util.ArrayList;
+
 public class Main {
+
     public static void main(String[] args) {
-        Empresa empresa = new Empresa();
+        Estacion BSAS = new Estacion("Buenos Aires", 0);
+        Estacion LUJ = new Estacion("Lujan", 1);
+        Estacion MER = new Estacion("Mercedes", 2);
+        Estacion BRA = new Estacion("Bragado", 3);
 
-        Estacion BSAS = new Estacion("Buenos Aires");
-        Estacion LUJ = new Estacion("Lujan");
-        Estacion MER = new Estacion("Mercedes");
-        Estacion BRA = new Estacion("Bragado");
+        Reserva res1 = new Reserva(1, BSAS, BRA, 2);
 
-        empresa.nuevaEstacion(0, BSAS);
-        empresa.nuevaEstacion(1, LUJ);
-        empresa.nuevaEstacion(2, MER);
-        empresa.nuevaEstacion(3, BRA);
+        Estacion SUI = new Estacion("Suipacha",3);
 
-        Reserva res1 = new Reserva(1, BSAS, LUJ, 1);
-        Reserva res2 = new Reserva(2, BSAS, BRA, 1);
+        Reserva res2 = new Reserva(2, BSAS, BRA, 2);
 
-        empresa.nuevaReserva(res1);
-        empresa.nuevaReserva(res2);
+        System.out.println(recaudacionTotal());
+
+        System.out.println(estaciones);
 
         try {
-            System.out.println(empresa.cantVecesRecorrida("Bralkj"));
+            System.out.println(cantVecesRecorrida("Suipacha"));
         } catch (EstacionInexistente error) {
             System.err.println(error);
         }
+    }
+
+
+
+    static ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+    static ArrayList<Estacion> estaciones = new ArrayList<Estacion>();
+
+    // Metodos
+    public static double recaudacionTotal(){
+        double recaudacion = 0;
+        for(Reserva reserva : reservas) {
+            recaudacion += reserva.calcularCosto();
+        }
+        return recaudacion;
+    }
+
+    public static int buscarIndiceEstacion (String estacion) {
+        for (int i=0; i<estaciones.size(); i++) {
+            if ((estaciones.get(i).equals(estacion))){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static int cantVecesRecorrida(String nombreEstacion) throws EstacionInexistente{
+        int cant = 0;
+        int indice = buscarIndiceEstacion(nombreEstacion);
+        if (indice == -1) {
+            throw new EstacionInexistente();
+        }
+        for (Reserva reserva : reservas) {
+            int nEstacionPartida = buscarIndiceEstacion(reserva.getEstacionPartida().toString());
+            int nEstacionDestino = buscarIndiceEstacion(reserva.getEstacionDestino().toString());
+            if( nEstacionPartida <= indice && indice <= nEstacionDestino){
+                cant ++;
+            }
+        }
+        return cant;
     }
 }
